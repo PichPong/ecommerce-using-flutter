@@ -1,108 +1,174 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert'; // for jsonDecode
 
-class ItemsWidget extends StatelessWidget{
+// 1. Product Model
+class Products {
+  final int id;
+  final String title;
+  final String description;
+  final String image;
+  final double price;
+
+  Products({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.image,
+    required this.price,
+  });
+
+  factory Products.fromJson(Map<String, dynamic> json) {
+    return Products(
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      image: json['image'], // should match API key
+      price: double.parse(json['price'].toString()),
+    );
+  }
+}
+
+// 2. ItemsWidget
+class ItemsWidget extends StatelessWidget {
+  // Fetching products
+  Future<List<Products>> fetchProducts() async {
+    final url = Uri.parse('http://127.0.0.1:8000/api/products');
+
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      List<dynamic> jsonData = json.decode(response.body);
+      List<Products> products =
+          jsonData.map((item) => Products.fromJson(item)).toList();
+      return products;
+    } else {
+      throw Exception('Failed to load products');
+    }
+  }
+
   @override
-  Widget build(BuildContext context){
-    return GridView.count(
-      childAspectRatio: 0.68,
-      physics: NeverScrollableScrollPhysics(),
-      crossAxisCount: 2,
-      shrinkWrap: true,
-      children: [
-        for (int i=1; i<9; i++)
-          Container(
-            padding: EdgeInsets.only(left: 15, right: 15, top: 10),
-            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Products>>(
+      future: fetchProducts(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(child: Text('No products found.'));
+        } else {
+          final products = snapshot.data!;
+
+          return GridView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.68,
             ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            itemCount: products.length,
+            itemBuilder: (context, index) {
+              final product = products[index];
+
+              return Container(
+                padding: EdgeInsets.only(left: 15, right: 15, top: 10),
+                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
                   children: [
-                    Container(
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF06292),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        "-50%",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            color: Color(0xff4C53A5),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            "-50%",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Icon(Icons.favorite_border, color: Colors.red),
+                      ],
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        child: Image.network(
+                          product.image, // here!
+                          width: 120,
+                          height: 120,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Icon(Icons.broken_image, size: 80);
+                          },
                         ),
                       ),
                     ),
-                    Icon(
-                      Icons.favorite_border,
-                      color: Colors.red,
+                    Container(
+                      padding: EdgeInsets.only(bottom: 8),
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        product.title,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Color(0xff4C53A5),
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        product.description,
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Color(0xff4C53A5),
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "\$${product.price.toStringAsFixed(2)}",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff4C53A5),
+                            ),
+                          ),
+                          Icon(
+                            Icons.shopping_cart_checkout,
+                            color: Color(0xff4C53A5),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
-
-                InkWell(
-                  onTap: (){
-                    Navigator.pushNamed(context, "/itemPage");
-                  },
-                  child: Container(
-                    margin: EdgeInsets.all(10),
-                    child: Image.asset(
-                      "images/$i.jpg",
-                      width: 120,
-                      height: 120,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(bottom: 8),
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Product Title",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Color(0xFFF06292),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Description",
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Color(0xFFF06292),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "\$55",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFFF06292),
-                        ),
-                      ),
-                      Icon(
-                        Icons.shopping_cart_checkout,
-                        color: Color(0xFFF06292),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-      ],
+              );
+            },
+          );
+        }
+      },
     );
   }
 }
