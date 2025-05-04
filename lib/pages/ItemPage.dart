@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:clippy_flutter/arc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +5,9 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../widgets/ItemAppBar.dart';
 
-class ItemPage extends StatelessWidget{
+class ItemPage extends StatelessWidget {
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFEDECF2),
       body: ListView(
@@ -17,7 +15,7 @@ class ItemPage extends StatelessWidget{
           ItemAppBar(),
           Padding(
             padding: EdgeInsets.all(16),
-            child: Image.asset("images/1.png", height: 300,),
+            child: Image.asset("images/1.png", height: 300),
           ),
           Arc(
             edge: Edge.TOP,
@@ -57,11 +55,12 @@ class ItemPage extends StatelessWidget{
                             itemCount: 5,
                             itemSize: 20,
                             itemPadding: EdgeInsets.symmetric(horizontal: 4),
-                            itemBuilder: (context, _) => Icon(
-                              Icons.favorite,
-                              color: Color(0xFFF06292),
-                            ),
-                            onRatingUpdate: (index){},
+                            itemBuilder:
+                                (context, _) => Icon(
+                                  Icons.favorite,
+                                  color: Color(0xFFF06292),
+                                ),
+                            onRatingUpdate: (index) {},
                           ),
                           Row(
                             children: [
@@ -144,7 +143,7 @@ class ItemPage extends StatelessWidget{
                               color: Color(0xFFF06292),
                             ),
                           ),
-                          SizedBox(width: 10,),
+                          SizedBox(width: 10),
                           Row(
                             children: [
                               Container(

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class ItemsWidget extends StatelessWidget{
+class ItemsWidget extends StatelessWidget {
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return GridView.count(
       childAspectRatio: 0.68,
       physics: NeverScrollableScrollPhysics(),
       crossAxisCount: 2,
       shrinkWrap: true,
       children: [
-        for (int i=1; i<9; i++)
+        for (int i = 1; i < 8; i++)
           Container(
             padding: EdgeInsets.only(left: 15, right: 15, top: 10),
             margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
@@ -37,21 +37,18 @@ class ItemsWidget extends StatelessWidget{
                         ),
                       ),
                     ),
-                    Icon(
-                      Icons.favorite_border,
-                      color: Colors.red,
-                    ),
+                    Icon(Icons.favorite_border, color: Colors.red),
                   ],
                 ),
 
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     Navigator.pushNamed(context, "/itemPage");
                   },
                   child: Container(
                     margin: EdgeInsets.all(10),
                     child: Image.asset(
-                      "images/$i.jpg",
+                      "images/$i.png",
                       width: 120,
                       height: 120,
                     ),
@@ -73,10 +70,7 @@ class ItemsWidget extends StatelessWidget{
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Description",
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Color(0xFFF06292),
-                    ),
+                    style: TextStyle(fontSize: 15, color: Color(0xFFF06292)),
                   ),
                 ),
                 Padding(
