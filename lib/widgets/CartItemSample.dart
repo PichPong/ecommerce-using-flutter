@@ -26,7 +26,7 @@ class CartItemSample extends StatelessWidget{
                 height: 70,
                 width: 70,
                 margin: EdgeInsets.only(right: 15),
-                child: Image.asset("images/1.png"),
+                child: Image.asset("images/$i.png"),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),

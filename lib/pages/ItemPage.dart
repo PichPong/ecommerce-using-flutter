@@ -1,3 +1,5 @@
+
+import 'package:app_ecommerce/widgets/ItemBottomNavBar.dart';
 import 'package:clippy_flutter/arc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,15 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../widgets/ItemAppBar.dart';
 
 class ItemPage extends StatelessWidget {
+  List<Color> Clrs = [
+    Colors.red,
+    Colors.green,
+    Colors.blue,
+    Colors.indigo,
+    Colors.orange,
+  ];
+
+  ItemPage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +40,7 @@ class ItemPage extends StatelessWidget {
                 child: Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(top: 50, bottom: 20),
+                      padding: EdgeInsets.only(top: 48, bottom: 15),
                       child: Row(
                         children: [
                           Text(
@@ -164,12 +175,50 @@ class ItemPage extends StatelessWidget {
                                     ],
                                   ),
                                   child: Text(
-                                    "1",
+                                    i.toString(),
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18,
                                       color: Color(0xFFF06292),
                                     ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Color:",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFFF06292),
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          Row(
+                            children: [
+                              for (int i = 0; i < 5; i++)
+                                Container(
+                                  height: 30,
+                                  width: 30,
+                                  alignment: Alignment.center,
+                                  margin: EdgeInsets.symmetric(horizontal: 5),
+                                  decoration: BoxDecoration(
+                                    color: Clrs[i],
+                                    borderRadius: BorderRadius.circular(30),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 10,
+                                      ),
+                                    ],
                                   ),
                                 ),
                             ],
@@ -184,6 +233,7 @@ class ItemPage extends StatelessWidget {
           ),
         ],
       ),
+      bottomNavigationBar: ItemBottomNavbar(),
     );
   }
 }
