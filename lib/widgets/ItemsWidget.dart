@@ -82,6 +82,10 @@ class ItemsWidget extends StatelessWidget {
                 child: Column(
                   children: [
                     Row(
+                      // onTap: () {
+                      //   Navigator.pushNamed(context, "/itemPage");
+                      // }, 
+
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
