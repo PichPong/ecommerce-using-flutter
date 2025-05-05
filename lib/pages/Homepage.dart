@@ -74,9 +74,9 @@ class HomePage extends StatelessWidget{
                 ),
               ),
 
-              // categories widget
+       /*        // categories widget
               CategoriesWidges(),
-
+ */
               // items
               Container(
                 alignment: Alignment.centerLeft,

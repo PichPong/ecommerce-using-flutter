@@ -2,6 +2,7 @@ import 'package:app_ecommerce/pages/CartPage.dart';
 import 'package:app_ecommerce/pages/Homepage.dart';
 import 'package:app_ecommerce/pages/ItemPage.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());

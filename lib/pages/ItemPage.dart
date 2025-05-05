@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:clippy_flutter/arc.dart';
 import 'package:flutter/cupertino.dart';
