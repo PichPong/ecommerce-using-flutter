@@ -23,7 +23,8 @@ class ItemPage extends StatelessWidget {
       backgroundColor: Color(0xFFEDECF2),
       body: ListView(
         children: [
-          ItemAppBar(),
+          ItemAppBar(productId: 1, ),
+          // Image
           Padding(
             padding: EdgeInsets.all(16),
             child: Image.asset("images/1.png", height: 300),

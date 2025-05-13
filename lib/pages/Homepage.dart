@@ -58,7 +58,7 @@ class HomePage extends StatelessWidget{
               ),
 
               // categories
-              Container(
+             /*  Container(
                 alignment: Alignment.centerLeft,
                 margin: EdgeInsets.symmetric(
                   vertical: 20,
@@ -72,11 +72,11 @@ class HomePage extends StatelessWidget{
                     color: Color(0xFFF06292),
                   ),
                 ),
-              ),
+              ), */
 
-              // categories widget
+       /*        // categories widget
               CategoriesWidges(),
-
+ */
               // items
               Container(
                 alignment: Alignment.centerLeft,
